@@ -1,0 +1,12 @@
+syntax = "proto3";
+package eventchain.oracle;
+
+import "gogoproto/gogo.proto";
+import "eventchain/oracle/params.proto";
+
+option go_package = "github.com/dixitaniket/eventchain/x/oracle/types";
+
+// GenesisState defines the oracle module's genesis state.
+message GenesisState {
+  Params params = 1 [(gogoproto.nullable) = false];
+}

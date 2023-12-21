@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package eventchain.oracle;
+
+option go_package = "github.com/dixitaniket/eventchain/x/oracle/types";
+
+// Msg defines the Msg service.
+service Msg {
+  rpc PostResult (MsgPostResult) returns (MsgPostResultResponse);
+}
+message MsgPostResult {
+  string creator = 1;
+  string result  = 2;
+}
+
+message MsgPostResultResponse {}
+
