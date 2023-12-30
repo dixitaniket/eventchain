@@ -10,6 +10,15 @@ import (
 func InitGenesis(ctx sdk.Context, k keeper.Keeper, genState types.GenesisState) {
 	// this line is used by starport scaffolding # genesis/module/init
 	k.SetParams(ctx, genState.Params)
+	// store whitelisted address
+
+	for _, addr := range genState.Whitelist {
+		operatorAddr, err := sdk.AccAddressFromBech32(addr)
+		if err != nil {
+			panic(err)
+		}
+		k.SetWhitelist(ctx, operatorAddr)
+	}
 }
 
 // ExportGenesis returns the module's exported genesis

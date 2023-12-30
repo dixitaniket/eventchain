@@ -70579,6 +70579,15 @@ definitions:
         description: params holds all the parameters of this module.
         type: object
     description: QueryParamsResponse is response type for the Query/Params RPC method.
+  eventchain.oracle.Result:
+    type: object
+    properties:
+      num:
+        type: string
+        format: int64
+      toadd:
+        type: string
+        format: int64
   ibc.applications.interchain_accounts.controller.v1.MsgRegisterInterchainAccountResponse:
     type: object
     properties:

@@ -5,18 +5,27 @@ import (
 	cdctypes "github.com/cosmos/cosmos-sdk/codec/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/msgservice"
+	govtypes "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 )
 
 func RegisterCodec(cdc *codec.LegacyAmino) {
 	cdc.RegisterConcrete(&MsgPostResult{}, "oracle/PostResult", nil)
+	cdc.RegisterConcrete(&MsgProposeWhitelist{}, "oracle/MsgProposeWhitelist", nil)
+
 	// this line is used by starport scaffolding # 2
 }
 
 func RegisterInterfaces(registry cdctypes.InterfaceRegistry) {
 	registry.RegisterImplementations((*sdk.Msg)(nil),
 		&MsgPostResult{},
+		&MsgProposeWhitelist{},
 	)
 	// this line is used by starport scaffolding # 3
+
+	registry.RegisterImplementations(
+		(*govtypes.Content)(nil),
+		&MsgProposeWhitelist{},
+	)
 
 	msgservice.RegisterMsgServiceDesc(registry, &_Msg_serviceDesc)
 }
