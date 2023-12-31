@@ -15,11 +15,12 @@ var (
 
 type (
 	Config struct {
-		EthConfig EthChainConfig `mapstructure:"eth_chain_config" validate:"dive,required"`
-		GasConfig Gas            `mapstructure:"gas_config" validate:"required"`
-		Account   Account        `mapstructure:"account" validate:"required,gt=0,dive,required"`
-		Keyring   Keyring        `mapstructure:"keyring" validate:"required,gt=0,dive,required"`
-		RPC       RPC            `mapstructure:"rpc" validate:"required,gt=0,dive,required"`
+		TimeoutHeight int64          `mapstructure:"timeout_height" validate:"required"`
+		EthConfig     EthChainConfig `mapstructure:"eth_chain_config" validate:"dive,required"`
+		GasConfig     Gas            `mapstructure:"gas_config" validate:"required"`
+		Account       Account        `mapstructure:"account" validate:"required,gt=0,dive,required"`
+		Keyring       Keyring        `mapstructure:"keyring" validate:"required,gt=0,dive,required"`
+		RPC           RPC            `mapstructure:"rpc" validate:"required,gt=0,dive,required"`
 	}
 
 	EthChainConfig struct {

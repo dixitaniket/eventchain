@@ -78,6 +78,7 @@ func observerHandler(cmd *cobra.Command, args []string) error {
 		cfg.Account.Address,
 		cfg.EthConfig.ContractAddress,
 		cfg.EthConfig.RPC,
+		cfg.TimeoutHeight,
 		oc,
 	)
 
