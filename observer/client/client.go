@@ -26,7 +26,6 @@ import (
 )
 
 type (
-	// OracleClient defines a structure that interfaces with the Ojo node.
 	OracleClient struct {
 		Logger              zerolog.Logger
 		ChainID             string
