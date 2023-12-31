@@ -4,4 +4,7 @@ build: go.sum
 	@echo "--> Building..."
 	go build -mod=readonly -o $(BUILD_DIR)/ ./...
 
-.PHONY: build
+generate:
+	go generate ./....
+
+.PHONY: build generate

@@ -1,4 +1,5 @@
 syntax = "proto3";
+
 package eventchain.oracle;
 
 import "gogoproto/gogo.proto";
@@ -10,17 +11,33 @@ option go_package = "github.com/dixitaniket/eventchain/x/oracle/types";
 
 // Query defines the gRPC querier service.
 service Query {
+  
   // Parameters queries the parameters of the module.
-  rpc Params(QueryParamsRequest) returns (QueryParamsResponse) {
+  rpc Params (QueryParamsRequest) returns (QueryParamsResponse) {
     option (google.api.http).get = "/dixitaniket/eventchain/oracle/params";
+  
+  }
+  
+  // Queries a list of Result items.
+  rpc Result (QueryResultRequest) returns (QueryResultResponse) {
+    option (google.api.http).get = "/dixitaniket/eventchain/oracle/result";
+  
   }
 }
-
 // QueryParamsRequest is request type for the Query/Params RPC method.
 message QueryParamsRequest {}
 
 // QueryParamsResponse is response type for the Query/Params RPC method.
 message QueryParamsResponse {
+  
   // params holds all the parameters of this module.
   Params params = 1 [(gogoproto.nullable) = false];
+}
+
+message QueryResultRequest {
+}
+
+message QueryResultResponse {
+  int64 result = 1;
+  int64 blockHeight = 2;
 }

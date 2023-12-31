@@ -16,15 +16,17 @@ type Observer struct {
 	relayerAddress  string
 	contractAddress string
 	rpcUrl          string
+	timeoutHeight   int64
 	oc              client.OracleClient
 }
 
-func NewObserver(logger zerolog.Logger, relayerAddress, address, rpc string, oc client.OracleClient) *Observer {
+func NewObserver(logger zerolog.Logger, relayerAddress, address, rpc string, height int64, oc client.OracleClient) *Observer {
 	observer := &Observer{
 		logger:          logger.With().Str("module", "observer").Logger(),
 		relayerAddress:  relayerAddress,
 		contractAddress: address,
 		rpcUrl:          rpc,
+		timeoutHeight:   height,
 		oc:              oc,
 	}
 	return observer
@@ -57,9 +59,20 @@ func (o *Observer) Start(ctx context.Context) error {
 	}
 }
 
-func (o *Observer) processMsg(num uint8, toadd uint8) error {
-	msg := types.MsgPostResult{}
-	err := o.oc.BroadcastTx(10, 10, &msg)
+func (o *Observer) processMsg(num uint8, add uint8) error {
+	msg := types.MsgPostResult{
+		Creator: o.relayerAddress,
+		Result: types.Result{
+			Num:   int64(num),
+			Toadd: int64(add),
+		},
+	}
+	height, err := o.oc.ChainHeight.GetChainHeight()
+	if err != nil {
+		return err
+	}
+
+	err = o.oc.BroadcastTx(height, o.timeoutHeight, &msg)
 	if err != nil {
 		return fmt.Errorf("error in broadcasting msg %s", err)
 	}

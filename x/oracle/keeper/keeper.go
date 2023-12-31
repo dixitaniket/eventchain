@@ -3,6 +3,7 @@ package keeper
 import (
 	"fmt"
 
+	sdkerrors "cosmossdk.io/errors"
 	"github.com/cometbft/cometbft/libs/log"
 	"github.com/cosmos/cosmos-sdk/codec"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
@@ -69,6 +70,60 @@ func (k Keeper) SetResult(ctx sdk.Context, acc sdk.AccAddress, result types.Resu
 	}
 	k.setKey(ctx, types.GetResultInt(acc), res)
 	return nil
+}
+
+func (k Keeper) GetResultIterator(ctx sdk.Context) sdk.Iterator {
+	return sdk.KVStorePrefixIterator(ctx.KVStore(k.storeKey), types.KeyPrefixResultInt)
+}
+
+func (k Keeper) SetFinalResult(ctx sdk.Context) error {
+	iterator := k.GetResultIterator(ctx)
+	defer iterator.Close()
+
+	// could use map iterator as it does not affect order here
+	totalCount := make(map[int64]int)
+	for ; iterator.Valid(); iterator.Next() {
+		var val types.Result
+		k.cdc.MustUnmarshal(iterator.Value(), &val)
+		total := val.Toadd + val.Num
+		if _, found := totalCount[total]; !found {
+			totalCount[total] = 0
+		}
+		totalCount[total] += 1
+	}
+	maxcounts := 0
+	finalVal := int64(0)
+	for val, counts := range totalCount {
+		if counts > maxcounts {
+			finalVal = val
+			maxcounts = counts
+		}
+	}
+
+	res := types.FinalResult{
+		Result: finalVal,
+		Height: ctx.BlockHeight(),
+	}
+	resBuf, err := k.cdc.Marshal(&res)
+	if err != nil {
+		return err
+	}
+	k.setKey(ctx, types.KeyFinalResult, resBuf)
+	return nil
+}
+
+func (k Keeper) GetFinalResult(ctx sdk.Context) (types.FinalResult, error) {
+	buf, found := k.getKey(ctx, types.KeyFinalResult)
+	if !found {
+		return types.FinalResult{}, sdkerrors.Wrap(types.ErrNoFinalResult, "not found")
+	}
+	var result types.FinalResult
+	err := k.cdc.UnmarshalInterface(buf, &result)
+	if err != nil {
+		return types.FinalResult{}, sdkerrors.Wrap(types.ErrNoFinalResult, "not found")
+	}
+
+	return result, nil
 }
 
 func (k Keeper) CheckWhitelist(ctx sdk.Context, acc sdk.AccAddress) bool {

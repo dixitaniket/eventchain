@@ -22,6 +22,7 @@ const (
 var (
 	KeyPrefixWhitelist = []byte{0x01}
 	KeyPrefixResultInt = []byte{0x02}
+	KeyFinalResult     = []byte{0x03}
 )
 
 func KeyPrefix(p string) []byte {

@@ -15,6 +15,8 @@ service Msg {
 message MsgPostResult {
   string creator = 1;
   Result result =2 [(gogoproto.nullable)=false];
+  int64 chainHeight = 3;
+  int64 blockHeight = 4;
 }
 
 message Result {
@@ -34,4 +36,9 @@ message MsgProposeWhitelist {
   string title = 2;
   string description = 3;
   string whitelistOperator = 4;
+}
+
+message FinalResult{
+  int64 result = 1;
+  int64 height = 2;
 }

@@ -1,0 +1,20 @@
+[eth_chain_config]
+contract_address = "0x"
+rpc = "http://localhost:8545"
+
+[gas_config]
+gas_price = "0.025stake"
+gas_adjustment = 1
+
+[account]
+chain_id = "1"
+address = "0x"
+
+[keyring]
+backend = "os"
+dir = ""
+
+[rpc]
+tmrpc_endpoint = "http://localhost:26657"
+grpc_endpoint = "http://localhost:9090"
+rpc_timeout = "10s"

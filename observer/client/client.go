@@ -41,7 +41,6 @@ type (
 		Encoding            params.EncodingConfig
 		GasPrices           string
 		GasAdjustment       float64
-		GRPCEndpoint        string
 		KeyringPassphrase   string
 		ChainHeight         *ChainHeight
 	}
@@ -62,8 +61,7 @@ func NewOracleClient(
 	tmRPC string,
 	rpcTimeout time.Duration,
 	oracleAddrString string,
-	validatorAddrString string,
-	grpcEndpoint string,
+	gasPrices string,
 	gasAdjustment float64,
 ) (OracleClient, error) {
 	oracleAddr, err := sdk.AccAddressFromBech32(oracleAddrString)
@@ -72,20 +70,18 @@ func NewOracleClient(
 	}
 
 	oracleClient := OracleClient{
-		Logger:              logger.With().Str("module", "oracle_client").Logger(),
-		ChainID:             chainID,
-		KeyringBackend:      keyringBackend,
-		KeyringDir:          keyringDir,
-		KeyringPass:         keyringPass,
-		TMRPC:               tmRPC,
-		RPCTimeout:          rpcTimeout,
-		OracleAddr:          oracleAddr,
-		OracleAddrString:    oracleAddrString,
-		ValidatorAddr:       sdk.ValAddress(validatorAddrString),
-		ValidatorAddrString: validatorAddrString,
-		Encoding:            app.MakeEncodingConfig(),
-		GasAdjustment:       gasAdjustment,
-		GRPCEndpoint:        grpcEndpoint,
+		Logger:           logger.With().Str("module", "oracle_client").Logger(),
+		ChainID:          chainID,
+		KeyringBackend:   keyringBackend,
+		KeyringDir:       keyringDir,
+		KeyringPass:      keyringPass,
+		TMRPC:            tmRPC,
+		RPCTimeout:       rpcTimeout,
+		OracleAddr:       oracleAddr,
+		OracleAddrString: oracleAddrString,
+		Encoding:         app.MakeEncodingConfig(),
+		GasAdjustment:    gasAdjustment,
+		GasPrices:        gasPrices,
 	}
 
 	clientCtx, err := oracleClient.CreateClientContext()
