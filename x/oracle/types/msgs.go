@@ -56,13 +56,17 @@ func (msg *MsgPostResult) ValidateBasic() error {
 
 func NewMsgProposeWhitelist(
 	authority, title, description string,
-	operatorAcc sdk.AccAddress,
+	operatorAccs []sdk.AccAddress,
 ) *MsgProposeWhitelist {
+	operators := make([]string, len(operatorAccs))
+	for _, operator := range operatorAccs {
+		operators = append(operators, operator.String())
+	}
 	return &MsgProposeWhitelist{
 		Authority:         authority,
 		Title:             title,
 		Description:       description,
-		WhitelistOperator: operatorAcc.String(),
+		WhitelistOperator: operators,
 	}
 }
 
@@ -82,10 +86,6 @@ func (msg MsgProposeWhitelist) GetSigners() []sdk.AccAddress {
 
 // ValidateBasic implements Msg
 func (msg MsgProposeWhitelist) ValidateBasic() error {
-	_, err := sdk.AccAddressFromBech32(msg.WhitelistOperator)
-	if err != nil {
-		return err
-	}
 	return ValidateProposal(msg.Title, msg.Description, msg.Authority)
 }
 

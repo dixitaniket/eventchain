@@ -26,7 +26,7 @@ func TestPostResult(t *testing.T) {
 
 	msg := &types.MsgPostResult{
 		Creator:     creator.String(),
-		BlockHeight: 9,
+		BlockHeight: 11,
 		Result: types.Result{
 			Num:   10,
 			Toadd: 20,
@@ -60,7 +60,7 @@ func TestProposeWhitelist(t *testing.T) {
 	// Test for successful ProposeWhitelist
 	msg := &types.MsgProposeWhitelist{
 		Authority:         sample.AccAddress().String(), //invalid authority
-		WhitelistOperator: toWhitelist.String(),
+		WhitelistOperator: []string{toWhitelist.String()},
 	}
 	_, err := ms.ProposeWhitelist(ctx, msg)
 	require.ErrorIs(t, err, types.ErrNotAuthorized)

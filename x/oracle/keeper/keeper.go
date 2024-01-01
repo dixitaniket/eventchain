@@ -57,7 +57,6 @@ func (k Keeper) delKeys(ctx sdk.Context, keys [][]byte) {
 		kvstore.Delete(key)
 	}
 }
-
 func (k Keeper) getKey(ctx sdk.Context, key []byte) ([]byte, bool) {
 	kvstore := ctx.KVStore(k.storeKey)
 	if !kvstore.Has(key) {
@@ -69,6 +68,17 @@ func (k Keeper) getKey(ctx sdk.Context, key []byte) ([]byte, bool) {
 
 func (k Keeper) SetWhitelist(ctx sdk.Context, acc sdk.AccAddress) {
 	k.setKey(ctx, types.GetWhitelistKey(acc), acc)
+}
+
+func (k Keeper) flushWhitelist(ctx sdk.Context) {
+	iterator := k.GetIterator(ctx, types.KeyPrefixWhitelist)
+	defer iterator.Close()
+
+	toDel := make([][]byte, 0)
+	for ; iterator.Valid(); iterator.Next() {
+		toDel = append(toDel, iterator.Key())
+	}
+	k.delKeys(ctx, toDel)
 }
 
 func (k Keeper) SetResult(ctx sdk.Context, acc sdk.AccAddress, result types.Result) error {

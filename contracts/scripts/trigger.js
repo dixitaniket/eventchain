@@ -2,7 +2,7 @@ const hre = require("hardhat");
 
 async function main() {
     const testEvent = await hre.ethers.getContractAt("TestEvent","0x5FbDB2315678afecb367f032d93F642f64180aa3");
-    let tx=await testEvent.Trigger("10","20");
+    let tx=await testEvent.Trigger("100","200");
     console.log(tx)
 }
 

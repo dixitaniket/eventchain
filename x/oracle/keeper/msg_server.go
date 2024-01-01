@@ -33,8 +33,8 @@ func (k msgServer) PostResult(goCtx context.Context, msg *types.MsgPostResult) (
 		return nil, errors.Wrapf(types.ErrNotWhitelisted, "operator not whitelisted %s", operatorAddr.String())
 	}
 
-	if msg.BlockHeight > ctx.BlockHeight() {
-		return nil, errors.Wrapf(types.ErrInvalidBlockHeight, "block height %d greater than current block height %d", msg.BlockHeight, ctx.BlockHeight())
+	if msg.BlockHeight < ctx.BlockHeight() {
+		return nil, errors.Wrapf(types.ErrInvalidBlockHeight, "block height %d less than current block height %d", msg.BlockHeight, ctx.BlockHeight())
 	}
 
 	err = k.SetResult(ctx, operatorAddr, msg.Result)
@@ -50,10 +50,13 @@ func (k msgServer) ProposeWhitelist(goCtx context.Context, msg *types.MsgPropose
 	if authority != authtypes.NewModuleAddress(govtypes.ModuleName).String() {
 		return nil, errors.Wrapf(types.ErrNotAuthorized, "authority is not gov")
 	}
-	whitelist, err := sdk.AccAddressFromBech32(msg.WhitelistOperator)
-	if err != nil {
-		return nil, err
+	k.flushWhitelist(ctx)
+	for _, operators := range msg.WhitelistOperator {
+		whitelist, err := sdk.AccAddressFromBech32(operators)
+		if err != nil {
+			return nil, err
+		}
+		k.SetWhitelist(ctx, whitelist)
 	}
-	k.SetWhitelist(ctx, whitelist)
 	return &types.MsgProposeWhitelistResponse{}, nil
 }

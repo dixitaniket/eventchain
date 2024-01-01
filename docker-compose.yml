@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  eventchain:
+    build:
+      dockerfile: ./scripts/eventchain.dockerfile
+    image: eventchain
+    ports:
+      - "26657:26657"
+      - "9090:9090"
+
+  evmchain:
+    build:
+      dockerfile: ./scripts/evmchain.dockerfile
+    image: evmchain
+    ports:
+      - "8545:8545"

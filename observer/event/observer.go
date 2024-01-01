@@ -52,7 +52,9 @@ func (o *Observer) Start(ctx context.Context) error {
 	for {
 		select {
 		case err = <-eventSub.Err():
-			o.logger.Err(err).Send()
+			if err != nil {
+				o.logger.Err(err).Send()
+			}
 		case <-ctx.Done():
 			o.logger.Info().Msg("closing subscription")
 			return nil
@@ -81,7 +83,8 @@ func (o *Observer) processMsg(num uint8, add uint8, blockNum uint64) error {
 		return err
 	}
 	msg.ChainHeight = int64(blockNum)
-	msg.BlockHeight = height
+	// ideally block height should be current height + 1 (targeting tx for next block)
+	msg.BlockHeight = height + 1
 
 	o.logger.Info().Int64("chain block height", height).
 		Uint64("evm chain height", blockNum).

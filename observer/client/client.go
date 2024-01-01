@@ -16,7 +16,6 @@ import (
 	"github.com/cosmos/cosmos-sdk/client/rpc"
 	"github.com/cosmos/cosmos-sdk/client/tx"
 	"github.com/cosmos/cosmos-sdk/crypto/keyring"
-	"github.com/cosmos/cosmos-sdk/telemetry"
 	sdk "github.com/cosmos/cosmos-sdk/types"
 	"github.com/cosmos/cosmos-sdk/types/tx/signing"
 	authtypes "github.com/cosmos/cosmos-sdk/x/auth/types"
@@ -158,11 +157,7 @@ func (oc OracleClient) BroadcastTx(nextBlockHeight, timeoutHeight int64, msgs ..
 		lastCheckHeight = latestBlockHeight
 
 		resp, err := BroadcastTx(clientCtx, factory, msgs...)
-		if err != nil {
-			oc.Logger.Err(err).Send()
-		}
 		if resp != nil && resp.Code != 0 {
-			telemetry.IncrCounter(1, "failure", "tx", "code")
 			err = fmt.Errorf("invalid response code from tx: %d", resp.Code)
 		}
 		if err != nil {
@@ -195,7 +190,6 @@ func (oc OracleClient) BroadcastTx(nextBlockHeight, timeoutHeight int64, msgs ..
 		return nil
 	}
 
-	telemetry.IncrCounter(1, "failure", "tx", "timeout")
 	return errors.New("broadcasting tx timed out")
 }
 
