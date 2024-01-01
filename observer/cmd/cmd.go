@@ -71,6 +71,9 @@ func observerHandler(cmd *cobra.Command, args []string) error {
 		cfg.GasConfig.GasPrice,
 		cfg.GasConfig.GasAdjustment,
 	)
+	if err != nil {
+		return err
+	}
 
 	// create event observer
 	observer := event.NewObserver(

@@ -8,5 +8,5 @@ option go_package = "github.com/dixitaniket/eventchain/x/oracle/types";
 // Params defines the parameters for the module.
 message Params {
   option (gogoproto.goproto_stringer) = false;
-  
+  int64 minVotes = 1;
 }

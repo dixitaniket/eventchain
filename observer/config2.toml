@@ -9,11 +9,11 @@ gas_adjustment = 2
 
 [account]
 chain_id = "eventchain"
-address = "cosmos1azge0uza7gxeg5956yxfet3ycyzd59ew5txgp8"
+address = "cosmos1rcppa2x2ffm084jkk5g36npjf45yawe6l6lkjt"
 
 [keyring]
 backend = "test"
-dir = "/${HOME}/.eventchain/"
+dir = "~/.eventchain/"
 
 [rpc]
 tmrpc_endpoint = "http://0.0.0.0:26657"

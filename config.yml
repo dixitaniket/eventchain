@@ -10,11 +10,21 @@ accounts:
   coins:
   - 10000token
   - 100000000stake
-- name: observer
+- name: observer1
   coins:
     - 10000token
     - 100000000stake
-  mnemonic:  mesh cage reopen protect marble vendor scheme sleep aspect sweet enrich hill left room embrace waste air general shop blanket genuine person surge hedgehog
+  mnemonic: minor umbrella weather spin hand addict rabbit vocal sample cargo dash cool soup runway divorce slim mansion divide dinosaur useless glue layer prosper stamp
+- name: observer2
+  coins:
+    - 10000token
+    - 100000000stake
+  mnemonic: bachelor detail traffic outside copy speak village swing sun mercy genuine meat trim trim cake direct position song garbage bulb gospel fuel loud shield
+- name: observer3
+  coins:
+    - 10000token
+    - 100000000stake
+  mnemonic: rail hole desk six scheme verify gown material belt idle inform lesson great airport ahead quote vehicle brown juice close ladder sun guide recycle
 client:
   openapi:
     path: docs/static/openapi.yml
@@ -29,4 +39,4 @@ validators:
 genesis:
   app_state:
     oracle:
-      whitelist: ["cosmos1azge0uza7gxeg5956yxfet3ycyzd59ew5txgp8"] # whitelisting observer on genesis
+      whitelist: ["cosmos1x7hvt2rcc7l3g8wqhk2lxy6cnr987hp4fe7cpx","cosmos1rcppa2x2ffm084jkk5g36npjf45yawe6l6lkjt","cosmos1kzelflkf3yac76sue3v66jty6rn0ylttphaanj"] # whitelisting observer on genesis

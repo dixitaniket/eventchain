@@ -56,6 +56,13 @@ func (k Keeper) delKey(ctx sdk.Context, key []byte) {
 	kvstore.Delete(key)
 }
 
+func (k Keeper) delKeys(ctx sdk.Context, keys [][]byte) {
+	kvstore := ctx.KVStore(k.storeKey)
+	for _, key := range keys {
+		kvstore.Delete(key)
+	}
+}
+
 func (k Keeper) getKey(ctx sdk.Context, key []byte) ([]byte, bool) {
 	kvstore := ctx.KVStore(k.storeKey)
 	if !kvstore.Has(key) {
@@ -83,12 +90,14 @@ func (k Keeper) GetIterator(ctx sdk.Context, key []byte) sdk.Iterator {
 }
 
 func (k Keeper) SetFinalResult(ctx sdk.Context) error {
+	params := k.GetParams(ctx)
+	minVotes := params.GetMinVotes()
 	iterator := k.GetIterator(ctx, types.KeyPrefixResultInt)
 	defer iterator.Close()
 
 	// could use map iterator as it does not affect order here
 	totalCount := make(map[int64]int)
-	toDel := make([][]byte, 0)
+	totalVoters := make([][]byte, 0)
 	for ; iterator.Valid(); iterator.Next() {
 		var val types.Result
 		k.cdc.MustUnmarshal(iterator.Value(), &val)
@@ -97,10 +106,15 @@ func (k Keeper) SetFinalResult(ctx sdk.Context) error {
 			totalCount[total] = 0
 		}
 		totalCount[total] += 1
-		toDel = append(toDel, iterator.Key())
+		totalVoters = append(totalVoters, iterator.Key())
 	}
-	if len(toDel) == 0 {
+	if len(totalVoters) == 0 {
 		// no votes present
+		return nil
+	}
+	if len(totalVoters) < int(minVotes) {
+		ctx.Logger().Info("total votes less than min required", "total votes", len(totalVoters), "block height", ctx.BlockHeight())
+		k.delKeys(ctx, totalVoters)
 		return nil
 	}
 	maxCounts := 0
@@ -110,6 +124,14 @@ func (k Keeper) SetFinalResult(ctx sdk.Context) error {
 			finalVal = val
 			maxCounts = counts
 		}
+	}
+
+	// check if it is in consensus
+	requiredConsensus := (len(totalVoters) + 1) / 2
+	if maxCounts < requiredConsensus {
+		ctx.Logger().Info("total votes less than consensus", "total votes received", maxCounts, "total required", requiredConsensus)
+		k.delKeys(ctx, totalVoters)
+		return nil
 	}
 
 	res := types.FinalResult{
@@ -122,9 +144,7 @@ func (k Keeper) SetFinalResult(ctx sdk.Context) error {
 	}
 	k.setKey(ctx, types.KeyFinalResult, resBuf)
 	// delete all previous aggregated results
-	for _, key := range toDel {
-		k.delKey(ctx, key)
-	}
+	k.delKeys(ctx, totalVoters)
 	return nil
 }
 

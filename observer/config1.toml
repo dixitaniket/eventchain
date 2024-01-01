@@ -1,0 +1,21 @@
+timeout_height=10
+[eth_chain_config]
+contract_address = "0x5fbdb2315678afecb367f032d93f642f64180aa3"
+rpc = "ws://localhost:8545"
+
+[gas_config]
+gas_price = "0.25stake"
+gas_adjustment = 2
+
+[account]
+chain_id = "eventchain"
+address = "cosmos1x7hvt2rcc7l3g8wqhk2lxy6cnr987hp4fe7cpx"
+
+[keyring]
+backend = "test"
+dir = "~/.eventchain/"
+
+[rpc]
+tmrpc_endpoint = "http://0.0.0.0:26657"
+grpc_endpoint = "http://0.0.0.0:9090"
+rpc_timeout = "10s"

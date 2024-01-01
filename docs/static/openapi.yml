@@ -34936,6 +34936,10 @@ paths:
               params:
                 description: params holds all the parameters of this module.
                 type: object
+                properties:
+                  minVotes:
+                    type: string
+                    format: int64
             description: >-
               QueryParamsResponse is response type for the Query/Params RPC
               method.
@@ -70643,6 +70647,10 @@ definitions:
     type: object
   eventchain.oracle.Params:
     type: object
+    properties:
+      minVotes:
+        type: string
+        format: int64
     description: Params defines the parameters for the module.
   eventchain.oracle.QueryParamsResponse:
     type: object
@@ -70650,6 +70658,10 @@ definitions:
       params:
         description: params holds all the parameters of this module.
         type: object
+        properties:
+          minVotes:
+            type: string
+            format: int64
     description: QueryParamsResponse is response type for the Query/Params RPC method.
   eventchain.oracle.QueryResultResponse:
     type: object
