@@ -8,7 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	"github.com/cosmos/cosmos-sdk/types/address"
+	sdkerror "github.com/cosmos/cosmos-sdk/types/errors"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	"github.com/dixitaniket/eventchain/x/oracle/types"
 )
@@ -68,7 +68,7 @@ func (k Keeper) getKey(ctx sdk.Context, key []byte) ([]byte, bool) {
 }
 
 func (k Keeper) SetWhitelist(ctx sdk.Context, acc sdk.AccAddress) {
-	k.setKey(ctx, types.GetWhitelistKey(acc), address.MustLengthPrefix(acc))
+	k.setKey(ctx, types.GetWhitelistKey(acc), acc)
 }
 
 func (k Keeper) SetResult(ctx sdk.Context, acc sdk.AccAddress, result types.Result) error {
@@ -78,6 +78,19 @@ func (k Keeper) SetResult(ctx sdk.Context, acc sdk.AccAddress, result types.Resu
 	}
 	k.setKey(ctx, types.GetResultInt(acc), res)
 	return nil
+}
+
+func (k Keeper) GetResult(ctx sdk.Context, acc sdk.AccAddress) (types.Result, error) {
+	res, found := k.getKey(ctx, types.GetResultInt(acc))
+	if !found {
+		return types.Result{}, sdkerrors.Wrap(sdkerror.ErrNotFound, "result not found")
+	}
+	var result types.Result
+	err := k.cdc.Unmarshal(res, &result)
+	if err != nil {
+		return types.Result{}, err
+	}
+	return result, nil
 }
 
 func (k Keeper) GetIterator(ctx sdk.Context, key []byte) sdk.Iterator {
