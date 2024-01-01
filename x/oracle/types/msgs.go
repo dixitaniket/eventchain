@@ -5,8 +5,9 @@ import (
 	"fmt"
 	"strings"
 
+	sdkerrors "cosmossdk.io/errors"
 	sdk "github.com/cosmos/cosmos-sdk/types"
-	sdkerrors "github.com/cosmos/cosmos-sdk/types/errors"
+	sdkerror "github.com/cosmos/cosmos-sdk/types/errors"
 	gov1b1 "github.com/cosmos/cosmos-sdk/x/gov/types/v1beta1"
 )
 
@@ -48,7 +49,7 @@ func (msg *MsgPostResult) GetSignBytes() []byte {
 func (msg *MsgPostResult) ValidateBasic() error {
 	_, err := sdk.AccAddressFromBech32(msg.Creator)
 	if err != nil {
-		return sdkerrors.Wrapf(sdkerrors.ErrInvalidAddress, "invalid creator address (%s)", err)
+		return sdkerrors.Wrapf(sdkerror.ErrInvalidAddress, "invalid creator address %s", err)
 	}
 	return nil
 }

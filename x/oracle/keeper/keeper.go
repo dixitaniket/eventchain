@@ -51,11 +51,6 @@ func (k Keeper) setKey(ctx sdk.Context, key, val []byte) {
 	kvstore.Set(key, val)
 }
 
-func (k Keeper) delKey(ctx sdk.Context, key []byte) {
-	kvstore := ctx.KVStore(k.storeKey)
-	kvstore.Delete(key)
-}
-
 func (k Keeper) delKeys(ctx sdk.Context, keys [][]byte) {
 	kvstore := ctx.KVStore(k.storeKey)
 	for _, key := range keys {

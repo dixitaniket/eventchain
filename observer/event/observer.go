@@ -40,21 +40,27 @@ func (o *Observer) Start(ctx context.Context) error {
 
 	address := common.HexToAddress(o.contractAddress)
 	token, err := NewTestEvent(address, client)
-	sub := make(chan *TestEventLaunch)
-	see, err := token.WatchLaunch(nil, sub, nil, nil)
-
+	if err != nil {
+		return err
+	}
+	eventSink := make(chan *TestEventLaunch)
+	eventSub, err := token.WatchLaunch(nil, eventSink, nil, nil)
+	if err != nil {
+		return err
+	}
+	defer eventSub.Unsubscribe()
 	for {
 		select {
-		case _ = <-see.Err():
+		case err = <-eventSub.Err():
+			o.logger.Err(err).Send()
 		case <-ctx.Done():
 			o.logger.Info().Msg("closing subscription")
-			see.Unsubscribe()
 			return nil
-		case event := <-sub:
+		case event := <-eventSink:
 			o.logger.Info().Uint8("number", event.Number).
 				Uint8("to add", event.Toadd).
 				Msg("new event received")
-			err := o.processMsg(event.Number, event.Toadd)
+			err := o.processMsg(event.Number, event.Toadd, event.Raw.BlockNumber)
 			if err != nil {
 				o.logger.Err(err).Send()
 			}
@@ -62,7 +68,7 @@ func (o *Observer) Start(ctx context.Context) error {
 	}
 }
 
-func (o *Observer) processMsg(num uint8, add uint8) error {
+func (o *Observer) processMsg(num uint8, add uint8, blockNum uint64) error {
 	msg := types.MsgPostResult{
 		Creator: o.relayerAddress,
 		Result: types.Result{
@@ -74,8 +80,13 @@ func (o *Observer) processMsg(num uint8, add uint8) error {
 	if err != nil {
 		return err
 	}
+	msg.ChainHeight = int64(blockNum)
+	msg.BlockHeight = height
 
-	o.logger.Info().Int64("block height", height).Msg("broadcasting msg")
+	o.logger.Info().Int64("chain block height", height).
+		Uint64("evm chain height", blockNum).
+		Msg("broadcasting msg")
+
 	err = o.oc.BroadcastTx(height, o.timeoutHeight, &msg)
 	if err != nil {
 		return fmt.Errorf("error in broadcasting msg %s", err)
