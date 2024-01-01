@@ -51,6 +51,11 @@ func (k Keeper) setKey(ctx sdk.Context, key, val []byte) {
 	kvstore.Set(key, val)
 }
 
+func (k Keeper) delKey(ctx sdk.Context, key []byte) {
+	kvstore := ctx.KVStore(k.storeKey)
+	kvstore.Delete(key)
+}
+
 func (k Keeper) getKey(ctx sdk.Context, key []byte) ([]byte, bool) {
 	kvstore := ctx.KVStore(k.storeKey)
 	if !kvstore.Has(key) {
@@ -83,6 +88,7 @@ func (k Keeper) SetFinalResult(ctx sdk.Context) error {
 
 	// could use map iterator as it does not affect order here
 	totalCount := make(map[int64]int)
+	toDel := make([][]byte, 0)
 	for ; iterator.Valid(); iterator.Next() {
 		var val types.Result
 		k.cdc.MustUnmarshal(iterator.Value(), &val)
@@ -91,13 +97,18 @@ func (k Keeper) SetFinalResult(ctx sdk.Context) error {
 			totalCount[total] = 0
 		}
 		totalCount[total] += 1
+		toDel = append(toDel, iterator.Key())
 	}
-	maxcounts := 0
+	if len(toDel) == 0 {
+		// no votes present
+		return nil
+	}
+	maxCounts := 0
 	finalVal := int64(0)
 	for val, counts := range totalCount {
-		if counts > maxcounts {
+		if counts > maxCounts {
 			finalVal = val
-			maxcounts = counts
+			maxCounts = counts
 		}
 	}
 
@@ -110,6 +121,10 @@ func (k Keeper) SetFinalResult(ctx sdk.Context) error {
 		return err
 	}
 	k.setKey(ctx, types.KeyFinalResult, resBuf)
+	// delete all previous aggregated results
+	for _, key := range toDel {
+		k.delKey(ctx, key)
+	}
 	return nil
 }
 
@@ -118,8 +133,9 @@ func (k Keeper) GetFinalResult(ctx sdk.Context) (types.FinalResult, error) {
 	if !found {
 		return types.FinalResult{}, sdkerrors.Wrap(types.ErrNoFinalResult, "not found")
 	}
+
 	var result types.FinalResult
-	err := k.cdc.UnmarshalInterface(buf, &result)
+	err := k.cdc.Unmarshal(buf, &result)
 	if err != nil {
 		return types.FinalResult{}, sdkerrors.Wrap(types.ErrNoFinalResult, "not found")
 	}

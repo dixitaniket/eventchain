@@ -5,7 +5,7 @@ go 1.19
 require (
 	github.com/cometbft/cometbft v0.37.1
 	github.com/cosmos/cosmos-sdk v0.47.3
-	github.com/dixitaniket/eventchain v0.0.0-20231231140250-ba39db1a1e7b
+	github.com/dixitaniket/eventchain v0.0.0-20240101081616-34479faa521e
 	github.com/ethereum/go-ethereum v1.12.0
 	github.com/go-playground/validator/v10 v10.2.0
 	github.com/rs/zerolog v1.29.1

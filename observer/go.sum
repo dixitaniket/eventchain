@@ -383,6 +383,8 @@ github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13 h1:fAjc9m62+UWV/WA
 github.com/dgryski/go-farm v0.0.0-20200201041132-a6ae2369ad13/go.mod h1:SqUrOPUnsFjfmXRMNPybcSiG0BgUW2AuFH8PAnS2iTw=
 github.com/dixitaniket/eventchain v0.0.0-20231231140250-ba39db1a1e7b h1:sGnNUKapUtKo7EG1hk4qXHpZ1NfdWXZ6e8kNorys4sM=
 github.com/dixitaniket/eventchain v0.0.0-20231231140250-ba39db1a1e7b/go.mod h1:KSVvXW6s3UUzwK2WUDVYjW/SJjCknlfFRoBPOUbpE/8=
+github.com/dixitaniket/eventchain v0.0.0-20240101081616-34479faa521e h1:ID1b4Gm9ND1mjej8FYBWtOcLYaHBeoKM9HOLBOeB0ms=
+github.com/dixitaniket/eventchain v0.0.0-20240101081616-34479faa521e/go.mod h1:KSVvXW6s3UUzwK2WUDVYjW/SJjCknlfFRoBPOUbpE/8=
 github.com/docker/go-connections v0.4.0 h1:El9xVISelRB7BuFusrZozjnkIM5YnzCViNKohAFqRJQ=
 github.com/docker/go-units v0.5.0 h1:69rxXcBk27SvSaaxTtLh/8llcHD8vYHT7WSdRZ/jvr4=
 github.com/dustin/go-humanize v0.0.0-20171111073723-bb3d318650d4/go.mod h1:HtrtbFcZ19U5GC7JDqmcUSB87Iq5E25KnS6fMYU6eOk=

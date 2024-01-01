@@ -4,7 +4,9 @@ build: go.sum
 	@echo "--> Building..."
 	go build -mod=readonly -o $(BUILD_DIR)/ ./...
 
-generate:
-	go generate ./....
+start:
+	${MAKE} build
+	echo '\n'|./build/observer ./config.toml
 
-.PHONY: build generate
+
+.PHONY: build start

@@ -82,6 +82,7 @@ func observerHandler(cmd *cobra.Command, args []string) error {
 		oc,
 	)
 
+	logger.Info().Msg("starting observer")
 	g.Go(func() error {
 		return observer.Start(ctx)
 	})

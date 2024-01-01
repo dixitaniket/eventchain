@@ -158,6 +158,9 @@ func (oc OracleClient) BroadcastTx(nextBlockHeight, timeoutHeight int64, msgs ..
 		lastCheckHeight = latestBlockHeight
 
 		resp, err := BroadcastTx(clientCtx, factory, msgs...)
+		if err != nil {
+			oc.Logger.Err(err).Send()
+		}
 		if resp != nil && resp.Code != 0 {
 			telemetry.IncrCounter(1, "failure", "tx", "code")
 			err = fmt.Errorf("invalid response code from tx: %d", resp.Code)
@@ -187,7 +190,6 @@ func (oc OracleClient) BroadcastTx(nextBlockHeight, timeoutHeight int64, msgs ..
 		oc.Logger.Info().
 			Uint32("tx_code", resp.Code).
 			Str("tx_hash", resp.TxHash).
-			Int64("tx_height", resp.Height).
 			Msg("successfully broadcasted tx")
 
 		return nil

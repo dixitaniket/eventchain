@@ -50,8 +50,11 @@ func (o *Observer) Start(ctx context.Context) error {
 			o.logger.Info().Msg("closing subscription")
 			see.Unsubscribe()
 			return nil
-		case other := <-sub:
-			err := o.processMsg(other.Number, other.Toadd)
+		case event := <-sub:
+			o.logger.Info().Uint8("number", event.Number).
+				Uint8("to add", event.Toadd).
+				Msg("new event received")
+			err := o.processMsg(event.Number, event.Toadd)
 			if err != nil {
 				o.logger.Err(err).Send()
 			}
@@ -72,6 +75,7 @@ func (o *Observer) processMsg(num uint8, add uint8) error {
 		return err
 	}
 
+	o.logger.Info().Int64("block height", height).Msg("broadcasting msg")
 	err = o.oc.BroadcastTx(height, o.timeoutHeight, &msg)
 	if err != nil {
 		return fmt.Errorf("error in broadcasting msg %s", err)

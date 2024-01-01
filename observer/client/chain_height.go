@@ -54,7 +54,7 @@ func NewChainHeight(
 	}
 
 	chainHeight := &ChainHeight{
-		Logger:            logger.With().Str("oracle_client", "chain_height").Logger(),
+		Logger:            logger.With().Str("sub_module", "chain_height").Logger(),
 		errGetChainHeight: nil,
 		lastChainHeight:   initialHeight,
 	}

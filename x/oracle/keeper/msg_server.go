@@ -33,6 +33,10 @@ func (k msgServer) PostResult(goCtx context.Context, msg *types.MsgPostResult) (
 		return nil, errors.Wrapf(types.ErrNotWhitelisted, "operator not whitelisted %s", operatorAddr.String())
 	}
 
+	if msg.BlockHeight > ctx.BlockHeight() {
+		return nil, errors.Wrapf(types.ErrInvalidBlockHeight, "block height %d greater than current block height %d", msg.BlockHeight, ctx.BlockHeight())
+	}
+
 	err = k.SetResult(ctx, operatorAddr, msg.Result)
 	if err != nil {
 		return nil, err
