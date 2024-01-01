@@ -121,9 +121,8 @@ func (k Keeper) SetFinalResult(ctx sdk.Context) error {
 		return nil
 	}
 	if len(totalVoters) < int(minVotes) {
-		ctx.Logger().Info("total votes less than min required", "total votes", len(totalVoters), "block height", ctx.BlockHeight())
 		k.delKeys(ctx, totalVoters)
-		return nil
+		return sdkerrors.Wrap(types.ErrNoConsensus, "total votes less than min required")
 	}
 	maxCounts := 0
 	finalVal := int64(0)
@@ -136,10 +135,14 @@ func (k Keeper) SetFinalResult(ctx sdk.Context) error {
 
 	// check if it is in consensus
 	requiredConsensus := (len(totalVoters) + 1) / 2
+	// increase required consensus if num votes are even
+	if len(totalVoters)%2 == 0 {
+		requiredConsensus += 1
+	}
+
 	if maxCounts < requiredConsensus {
-		ctx.Logger().Info("total votes less than consensus", "total votes received", maxCounts, "total required", requiredConsensus)
 		k.delKeys(ctx, totalVoters)
-		return nil
+		return sdkerrors.Wrap(types.ErrNoConsensus, "no consensus among votes")
 	}
 
 	res := types.FinalResult{

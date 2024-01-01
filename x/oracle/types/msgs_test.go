@@ -23,7 +23,7 @@ func TestMsgPostResult_ValidateBasic(t *testing.T) {
 		}, {
 			name: "valid address",
 			msg: MsgPostResult{
-				Creator: sample.AccAddress(),
+				Creator: sample.AccAddress().String(),
 			},
 		},
 	}

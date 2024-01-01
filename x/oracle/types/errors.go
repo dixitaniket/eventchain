@@ -12,4 +12,5 @@ var (
 	ErrNoFinalResult      = sdkerrors.Register(ModuleName, 1101, "No Final Result")
 	ErrNotAuthorized      = sdkerrors.Register(ModuleName, 1102, "Not authorized")
 	ErrInvalidBlockHeight = sdkerrors.Register(ModuleName, 1103, "Invalid block height")
+	ErrNoConsensus        = sdkerrors.Register(ModuleName, 1104, "No consensus")
 )
