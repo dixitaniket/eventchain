@@ -8,6 +8,7 @@ import (
 	"github.com/cosmos/cosmos-sdk/codec"
 	storetypes "github.com/cosmos/cosmos-sdk/store/types"
 	sdk "github.com/cosmos/cosmos-sdk/types"
+	"github.com/cosmos/cosmos-sdk/types/address"
 	paramtypes "github.com/cosmos/cosmos-sdk/x/params/types"
 	"github.com/dixitaniket/eventchain/x/oracle/types"
 )
@@ -60,7 +61,7 @@ func (k Keeper) getKey(ctx sdk.Context, key []byte) ([]byte, bool) {
 }
 
 func (k Keeper) SetWhitelist(ctx sdk.Context, acc sdk.AccAddress) {
-	k.setKey(ctx, types.GetWhitelistKey(acc), []byte(""))
+	k.setKey(ctx, types.GetWhitelistKey(acc), address.MustLengthPrefix(acc))
 }
 
 func (k Keeper) SetResult(ctx sdk.Context, acc sdk.AccAddress, result types.Result) error {
@@ -72,12 +73,12 @@ func (k Keeper) SetResult(ctx sdk.Context, acc sdk.AccAddress, result types.Resu
 	return nil
 }
 
-func (k Keeper) GetResultIterator(ctx sdk.Context) sdk.Iterator {
-	return sdk.KVStorePrefixIterator(ctx.KVStore(k.storeKey), types.KeyPrefixResultInt)
+func (k Keeper) GetIterator(ctx sdk.Context, key []byte) sdk.Iterator {
+	return sdk.KVStorePrefixIterator(ctx.KVStore(k.storeKey), key)
 }
 
 func (k Keeper) SetFinalResult(ctx sdk.Context) error {
-	iterator := k.GetResultIterator(ctx)
+	iterator := k.GetIterator(ctx, types.KeyPrefixResultInt)
 	defer iterator.Close()
 
 	// could use map iterator as it does not affect order here
@@ -129,4 +130,16 @@ func (k Keeper) GetFinalResult(ctx sdk.Context) (types.FinalResult, error) {
 func (k Keeper) CheckWhitelist(ctx sdk.Context, acc sdk.AccAddress) bool {
 	_, found := k.getKey(ctx, types.GetWhitelistKey(acc))
 	return found
+}
+
+func (k Keeper) GetWhitelist(ctx sdk.Context) (whitelist []string) {
+	iterator := k.GetIterator(ctx, types.KeyPrefixWhitelist)
+	defer iterator.Close()
+
+	for ; iterator.Valid(); iterator.Next() {
+		operator := sdk.AccAddress(iterator.Value())
+		whitelist = append(whitelist, operator.String())
+	}
+
+	return whitelist
 }

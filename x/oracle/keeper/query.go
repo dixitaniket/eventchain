@@ -36,3 +36,15 @@ func (k Keeper) Result(goCtx context.Context, req *types.QueryResultRequest) (*t
 		BlockHeight: result.Height,
 	}, nil
 }
+
+func (k Keeper) Whitelist(goCtx context.Context, req *types.QueryWhitelistRequest) (*types.QueryWhitelistResponse, error) {
+	if req == nil {
+		return nil, status.Error(codes.InvalidArgument, "invalid request")
+	}
+
+	ctx := sdk.UnwrapSDKContext(goCtx)
+	whitelist := k.GetWhitelist(ctx)
+	return &types.QueryWhitelistResponse{
+		Whitelist: whitelist,
+	}, nil
+}

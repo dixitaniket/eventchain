@@ -53,7 +53,7 @@ func (msg *MsgPostResult) ValidateBasic() error {
 	return nil
 }
 
-func NewMsgGovAddDenoms(
+func NewMsgProposeWhitelist(
 	authority, title, description string,
 	operatorAcc sdk.AccAddress,
 ) *MsgProposeWhitelist {

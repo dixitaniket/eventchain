@@ -34923,7 +34923,7 @@ paths:
           format: int64
       tags:
         - Query
-  /dixitaniket/eventchain/oracle/params:
+  /eventchain/oracle/params:
     get:
       summary: Parameters queries the parameters of the module.
       operationId: EventchainOracleParams
@@ -34959,7 +34959,7 @@ paths:
                   additionalProperties: {}
       tags:
         - Query
-  /dixitaniket/eventchain/oracle/result:
+  /eventchain/oracle/result:
     get:
       summary: Queries a list of Result items.
       operationId: EventchainOracleResult
@@ -34975,6 +34975,40 @@ paths:
               blockHeight:
                 type: string
                 format: int64
+        default:
+          description: An unexpected error response.
+          schema:
+            type: object
+            properties:
+              code:
+                type: integer
+                format: int32
+              message:
+                type: string
+              details:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    '@type':
+                      type: string
+                  additionalProperties: {}
+      tags:
+        - Query
+  /eventchain/oracle/whitelist:
+    get:
+      summary: Queries a list of Whitelist address.
+      operationId: EventchainOracleWhitelist
+      responses:
+        '200':
+          description: A successful response.
+          schema:
+            type: object
+            properties:
+              whitelist:
+                type: array
+                items:
+                  type: string
         default:
           description: An unexpected error response.
           schema:
@@ -70605,6 +70639,8 @@ definitions:
     description: Period defines a length of time and amount of coins that will vest.
   eventchain.oracle.MsgPostResultResponse:
     type: object
+  eventchain.oracle.MsgProposeWhitelistResponse:
+    type: object
   eventchain.oracle.Params:
     type: object
     description: Params defines the parameters for the module.
@@ -70624,6 +70660,13 @@ definitions:
       blockHeight:
         type: string
         format: int64
+  eventchain.oracle.QueryWhitelistResponse:
+    type: object
+    properties:
+      whitelist:
+        type: array
+        items:
+          type: string
   eventchain.oracle.Result:
     type: object
     properties:

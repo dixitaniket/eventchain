@@ -10,6 +10,11 @@ accounts:
   coins:
   - 10000token
   - 100000000stake
+- name: observer
+  coins:
+    - 10000token
+    - 100000000stake
+  mnemonic:  mesh cage reopen protect marble vendor scheme sleep aspect sweet enrich hill left room embrace waste air general shop blanket genuine person surge hedgehog
 client:
   openapi:
     path: docs/static/openapi.yml
@@ -21,3 +26,7 @@ faucet:
 validators:
 - name: alice
   bonded: 100000000stake
+genesis:
+  app_state:
+    oracle:
+      whitelist: ["cosmos1azge0uza7gxeg5956yxfet3ycyzd59ew5txgp8"] # whitelisting observer on genesis

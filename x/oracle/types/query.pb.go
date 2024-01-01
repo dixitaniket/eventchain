@@ -201,41 +201,127 @@ func (m *QueryResultResponse) GetBlockHeight() int64 {
 	return 0
 }
 
+type QueryWhitelistRequest struct {
+}
+
+func (m *QueryWhitelistRequest) Reset()         { *m = QueryWhitelistRequest{} }
+func (m *QueryWhitelistRequest) String() string { return proto.CompactTextString(m) }
+func (*QueryWhitelistRequest) ProtoMessage()    {}
+func (*QueryWhitelistRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_d6f5d609df1bfa8c, []int{4}
+}
+func (m *QueryWhitelistRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryWhitelistRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryWhitelistRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryWhitelistRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryWhitelistRequest.Merge(m, src)
+}
+func (m *QueryWhitelistRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryWhitelistRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryWhitelistRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryWhitelistRequest proto.InternalMessageInfo
+
+type QueryWhitelistResponse struct {
+	Whitelist []string `protobuf:"bytes,1,rep,name=whitelist,proto3" json:"whitelist,omitempty"`
+}
+
+func (m *QueryWhitelistResponse) Reset()         { *m = QueryWhitelistResponse{} }
+func (m *QueryWhitelistResponse) String() string { return proto.CompactTextString(m) }
+func (*QueryWhitelistResponse) ProtoMessage()    {}
+func (*QueryWhitelistResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_d6f5d609df1bfa8c, []int{5}
+}
+func (m *QueryWhitelistResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *QueryWhitelistResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_QueryWhitelistResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *QueryWhitelistResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_QueryWhitelistResponse.Merge(m, src)
+}
+func (m *QueryWhitelistResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *QueryWhitelistResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_QueryWhitelistResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_QueryWhitelistResponse proto.InternalMessageInfo
+
+func (m *QueryWhitelistResponse) GetWhitelist() []string {
+	if m != nil {
+		return m.Whitelist
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*QueryParamsRequest)(nil), "eventchain.oracle.QueryParamsRequest")
 	proto.RegisterType((*QueryParamsResponse)(nil), "eventchain.oracle.QueryParamsResponse")
 	proto.RegisterType((*QueryResultRequest)(nil), "eventchain.oracle.QueryResultRequest")
 	proto.RegisterType((*QueryResultResponse)(nil), "eventchain.oracle.QueryResultResponse")
+	proto.RegisterType((*QueryWhitelistRequest)(nil), "eventchain.oracle.QueryWhitelistRequest")
+	proto.RegisterType((*QueryWhitelistResponse)(nil), "eventchain.oracle.QueryWhitelistResponse")
 }
 
 func init() { proto.RegisterFile("eventchain/oracle/query.proto", fileDescriptor_d6f5d609df1bfa8c) }
 
 var fileDescriptor_d6f5d609df1bfa8c = []byte{
-	// 372 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x52, 0x3d, 0x4f, 0xeb, 0x30,
-	0x14, 0x4d, 0xfa, 0xde, 0xcb, 0xe0, 0x4e, 0x2f, 0xaf, 0x7a, 0x2a, 0x15, 0x84, 0xaa, 0x52, 0x01,
-	0x21, 0x11, 0xd3, 0x32, 0xb0, 0x77, 0x42, 0x0c, 0x7c, 0x64, 0x64, 0x73, 0x82, 0x95, 0x5a, 0x4d,
-	0x7d, 0xd3, 0xd8, 0xa9, 0xda, 0x95, 0x81, 0x19, 0x89, 0x89, 0x7f, 0xd4, 0xb1, 0x12, 0x0b, 0x13,
-	0x42, 0x2d, 0x3f, 0x04, 0xd5, 0x76, 0x81, 0xaa, 0x44, 0xb0, 0x25, 0xe7, 0x9c, 0x7b, 0xce, 0xb9,
-	0x57, 0x46, 0x5b, 0x74, 0x48, 0xb9, 0x8c, 0xba, 0x84, 0x71, 0x0c, 0x19, 0x89, 0x12, 0x8a, 0x07,
-	0x39, 0xcd, 0xc6, 0x7e, 0x9a, 0x81, 0x04, 0xf7, 0xef, 0x07, 0xed, 0x6b, 0xba, 0x56, 0x89, 0x21,
-	0x06, 0xc5, 0xe2, 0xc5, 0x97, 0x16, 0xd6, 0x36, 0x63, 0x80, 0x38, 0xa1, 0x98, 0xa4, 0x0c, 0x13,
-	0xce, 0x41, 0x12, 0xc9, 0x80, 0x0b, 0xc3, 0xee, 0x47, 0x20, 0xfa, 0x20, 0x70, 0x48, 0x84, 0xf1,
-	0xc7, 0xc3, 0x56, 0x48, 0x25, 0x69, 0xe1, 0x94, 0xc4, 0x8c, 0x2b, 0xb1, 0xd1, 0x7a, 0xeb, 0x8d,
-	0x52, 0x92, 0x91, 0xbe, 0xf1, 0x6a, 0x54, 0x90, 0x7b, 0xb9, 0x70, 0xb8, 0x50, 0x60, 0x40, 0x07,
-	0x39, 0x15, 0xb2, 0x71, 0x86, 0xfe, 0xad, 0xa0, 0x22, 0x05, 0x2e, 0xa8, 0x7b, 0x8c, 0x1c, 0x3d,
-	0x5c, 0xb5, 0xeb, 0xf6, 0x5e, 0xb9, 0xbd, 0xe1, 0xaf, 0x2d, 0xe4, 0xeb, 0x91, 0xce, 0xef, 0xc9,
-	0xf3, 0xb6, 0x15, 0x18, 0xf9, 0x7b, 0x4a, 0x40, 0x45, 0x9e, 0xc8, 0x65, 0xca, 0xb9, 0x49, 0x59,
-	0xa2, 0x26, 0xe5, 0x3f, 0x72, 0x32, 0x85, 0xa8, 0x94, 0x5f, 0x81, 0xf9, 0x73, 0xeb, 0xa8, 0x1c,
-	0x26, 0x10, 0xf5, 0x4e, 0x28, 0x8b, 0xbb, 0xb2, 0x5a, 0x52, 0xe4, 0x67, 0xa8, 0xfd, 0x50, 0x42,
-	0x7f, 0x94, 0xa3, 0x7b, 0x6b, 0x23, 0x47, 0x37, 0x71, 0x9b, 0x5f, 0x94, 0x5c, 0x5f, 0xb9, 0xb6,
-	0xf3, 0x9d, 0x4c, 0xb7, 0x6b, 0x1c, 0xdc, 0x3c, 0xbe, 0xde, 0x97, 0x76, 0xdd, 0x26, 0xbe, 0x66,
-	0x23, 0x26, 0x09, 0x67, 0x3d, 0x2a, 0x71, 0xd1, 0x95, 0x55, 0x11, 0xbd, 0x5f, 0x71, 0x91, 0x95,
-	0xab, 0x14, 0x17, 0x59, 0x3d, 0xd3, 0x8f, 0x8b, 0xe8, 0xeb, 0x75, 0x4e, 0x27, 0x33, 0xcf, 0x9e,
-	0xce, 0x3c, 0xfb, 0x65, 0xe6, 0xd9, 0x77, 0x73, 0xcf, 0x9a, 0xce, 0x3d, 0xeb, 0x69, 0xee, 0x59,
-	0x57, 0x87, 0x31, 0x93, 0xdd, 0x3c, 0xf4, 0x23, 0xe8, 0x17, 0x59, 0x8d, 0x96, 0x66, 0x72, 0x9c,
-	0x52, 0x11, 0x3a, 0xea, 0xed, 0x1c, 0xbd, 0x05, 0x00, 0x00, 0xff, 0xff, 0x98, 0x03, 0x49, 0x2d,
-	0xef, 0x02, 0x00, 0x00,
+	// 434 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x8c, 0x52, 0xbf, 0x8f, 0xd3, 0x30,
+	0x18, 0x4d, 0xae, 0x10, 0xa9, 0xbe, 0x09, 0x73, 0x1c, 0xbd, 0x50, 0x4c, 0x89, 0x00, 0x15, 0x86,
+	0x98, 0x3b, 0x24, 0xd8, 0x6f, 0x42, 0x0c, 0xfc, 0xc8, 0x82, 0xc4, 0xe6, 0x04, 0x2b, 0xb1, 0x9a,
+	0xda, 0x69, 0xec, 0x94, 0x96, 0x91, 0x01, 0x31, 0x22, 0xf1, 0x4f, 0x75, 0xac, 0xc4, 0xc2, 0x84,
+	0x50, 0xcb, 0x1f, 0x82, 0xea, 0x38, 0xe9, 0xcf, 0x00, 0x5b, 0xfb, 0xde, 0xfb, 0xde, 0xfb, 0xbe,
+	0xe7, 0x80, 0xdb, 0x74, 0x4c, 0xb9, 0x8a, 0x12, 0xc2, 0x38, 0x16, 0x39, 0x89, 0x52, 0x8a, 0x47,
+	0x05, 0xcd, 0xa7, 0x7e, 0x96, 0x0b, 0x25, 0xe0, 0xb5, 0x35, 0xed, 0x97, 0xb4, 0x7b, 0x12, 0x8b,
+	0x58, 0x68, 0x16, 0xaf, 0x7e, 0x95, 0x42, 0xb7, 0x1b, 0x0b, 0x11, 0xa7, 0x14, 0x93, 0x8c, 0x61,
+	0xc2, 0xb9, 0x50, 0x44, 0x31, 0xc1, 0xa5, 0x61, 0x1f, 0x45, 0x42, 0x0e, 0x85, 0xc4, 0x21, 0x91,
+	0xc6, 0x1f, 0x8f, 0xcf, 0x43, 0xaa, 0xc8, 0x39, 0xce, 0x48, 0xcc, 0xb8, 0x16, 0x1b, 0x2d, 0xda,
+	0xdf, 0x28, 0x23, 0x39, 0x19, 0x1a, 0x2f, 0xef, 0x04, 0xc0, 0x37, 0x2b, 0x87, 0xd7, 0x1a, 0x0c,
+	0xe8, 0xa8, 0xa0, 0x52, 0x79, 0x2f, 0xc1, 0xf5, 0x2d, 0x54, 0x66, 0x82, 0x4b, 0x0a, 0x9f, 0x01,
+	0xa7, 0x1c, 0xee, 0xd8, 0x3d, 0xbb, 0x7f, 0x7c, 0x71, 0xe6, 0xef, 0x1d, 0xe4, 0x97, 0x23, 0x97,
+	0x57, 0x66, 0x3f, 0xef, 0x58, 0x81, 0x91, 0xd7, 0x29, 0x01, 0x95, 0x45, 0xaa, 0xaa, 0x94, 0x57,
+	0x26, 0xa5, 0x42, 0x4d, 0xca, 0x29, 0x70, 0x72, 0x8d, 0xe8, 0x94, 0x56, 0x60, 0xfe, 0xc1, 0x1e,
+	0x38, 0x0e, 0x53, 0x11, 0x0d, 0x9e, 0x53, 0x16, 0x27, 0xaa, 0x73, 0xa4, 0xc9, 0x4d, 0xc8, 0xbb,
+	0x09, 0x6e, 0x68, 0xc3, 0xb7, 0x09, 0x53, 0x34, 0x65, 0xb2, 0x4e, 0x7a, 0x0a, 0x4e, 0x77, 0x09,
+	0x13, 0xd6, 0x05, 0xed, 0x0f, 0x15, 0xd8, 0xb1, 0x7b, 0xad, 0x7e, 0x3b, 0x58, 0x03, 0x17, 0x5f,
+	0x5a, 0xe0, 0xaa, 0x1e, 0x84, 0x1f, 0x81, 0x53, 0x5e, 0x06, 0xef, 0x1f, 0x38, 0x7a, 0xbf, 0x42,
+	0xf7, 0xc1, 0xbf, 0x64, 0xe5, 0x02, 0xde, 0xdd, 0x4f, 0xdf, 0x7f, 0x7f, 0x3b, 0xba, 0x05, 0xcf,
+	0x70, 0xd3, 0x4b, 0xad, 0xb2, 0xcb, 0x8a, 0x9a, 0xb3, 0xb7, 0x8a, 0x6d, 0xce, 0xde, 0x6e, 0xfa,
+	0xaf, 0xd9, 0xa6, 0xf4, 0xcf, 0x36, 0x68, 0xd7, 0xad, 0xc1, 0x7e, 0x93, 0xf1, 0x6e, 0xe3, 0xee,
+	0xc3, 0xff, 0x50, 0x9a, 0x2d, 0xee, 0xe9, 0x2d, 0x10, 0xec, 0x1e, 0xd8, 0xa2, 0x7e, 0x8a, 0xcb,
+	0x17, 0xb3, 0x05, 0xb2, 0xe7, 0x0b, 0x64, 0xff, 0x5a, 0x20, 0xfb, 0xeb, 0x12, 0x59, 0xf3, 0x25,
+	0xb2, 0x7e, 0x2c, 0x91, 0xf5, 0xee, 0x71, 0xcc, 0x54, 0x52, 0x84, 0x7e, 0x24, 0x86, 0xf8, 0x3d,
+	0x9b, 0x30, 0x45, 0x38, 0x1b, 0x50, 0xb5, 0xe9, 0x36, 0xa9, 0xfc, 0xd4, 0x34, 0xa3, 0x32, 0x74,
+	0xf4, 0xb7, 0xff, 0xe4, 0x4f, 0x00, 0x00, 0x00, 0xff, 0xff, 0x4b, 0x4c, 0x2f, 0xf6, 0xaf, 0x03,
+	0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -254,6 +340,8 @@ type QueryClient interface {
 	Params(ctx context.Context, in *QueryParamsRequest, opts ...grpc.CallOption) (*QueryParamsResponse, error)
 	// Queries a list of Result items.
 	Result(ctx context.Context, in *QueryResultRequest, opts ...grpc.CallOption) (*QueryResultResponse, error)
+	// Queries a list of Whitelist address.
+	Whitelist(ctx context.Context, in *QueryWhitelistRequest, opts ...grpc.CallOption) (*QueryWhitelistResponse, error)
 }
 
 type queryClient struct {
@@ -282,12 +370,23 @@ func (c *queryClient) Result(ctx context.Context, in *QueryResultRequest, opts .
 	return out, nil
 }
 
+func (c *queryClient) Whitelist(ctx context.Context, in *QueryWhitelistRequest, opts ...grpc.CallOption) (*QueryWhitelistResponse, error) {
+	out := new(QueryWhitelistResponse)
+	err := c.cc.Invoke(ctx, "/eventchain.oracle.Query/Whitelist", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // QueryServer is the server API for Query service.
 type QueryServer interface {
 	// Parameters queries the parameters of the module.
 	Params(context.Context, *QueryParamsRequest) (*QueryParamsResponse, error)
 	// Queries a list of Result items.
 	Result(context.Context, *QueryResultRequest) (*QueryResultResponse, error)
+	// Queries a list of Whitelist address.
+	Whitelist(context.Context, *QueryWhitelistRequest) (*QueryWhitelistResponse, error)
 }
 
 // UnimplementedQueryServer can be embedded to have forward compatible implementations.
@@ -299,6 +398,9 @@ func (*UnimplementedQueryServer) Params(ctx context.Context, req *QueryParamsReq
 }
 func (*UnimplementedQueryServer) Result(ctx context.Context, req *QueryResultRequest) (*QueryResultResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Result not implemented")
+}
+func (*UnimplementedQueryServer) Whitelist(ctx context.Context, req *QueryWhitelistRequest) (*QueryWhitelistResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Whitelist not implemented")
 }
 
 func RegisterQueryServer(s grpc1.Server, srv QueryServer) {
@@ -341,6 +443,24 @@ func _Query_Result_Handler(srv interface{}, ctx context.Context, dec func(interf
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Query_Whitelist_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(QueryWhitelistRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(QueryServer).Whitelist(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/eventchain.oracle.Query/Whitelist",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(QueryServer).Whitelist(ctx, req.(*QueryWhitelistRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 var _Query_serviceDesc = grpc.ServiceDesc{
 	ServiceName: "eventchain.oracle.Query",
 	HandlerType: (*QueryServer)(nil),
@@ -352,6 +472,10 @@ var _Query_serviceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "Result",
 			Handler:    _Query_Result_Handler,
+		},
+		{
+			MethodName: "Whitelist",
+			Handler:    _Query_Whitelist_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
@@ -470,6 +594,61 @@ func (m *QueryResultResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *QueryWhitelistRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryWhitelistRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryWhitelistRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *QueryWhitelistResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *QueryWhitelistResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *QueryWhitelistResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Whitelist) > 0 {
+		for iNdEx := len(m.Whitelist) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Whitelist[iNdEx])
+			copy(dAtA[i:], m.Whitelist[iNdEx])
+			i = encodeVarintQuery(dAtA, i, uint64(len(m.Whitelist[iNdEx])))
+			i--
+			dAtA[i] = 0xa
+		}
+	}
+	return len(dAtA) - i, nil
+}
+
 func encodeVarintQuery(dAtA []byte, offset int, v uint64) int {
 	offset -= sovQuery(v)
 	base := offset
@@ -521,6 +700,30 @@ func (m *QueryResultResponse) Size() (n int) {
 	}
 	if m.BlockHeight != 0 {
 		n += 1 + sovQuery(uint64(m.BlockHeight))
+	}
+	return n
+}
+
+func (m *QueryWhitelistRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *QueryWhitelistResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Whitelist) > 0 {
+		for _, s := range m.Whitelist {
+			l = len(s)
+			n += 1 + l + sovQuery(uint64(l))
+		}
 	}
 	return n
 }
@@ -781,6 +984,138 @@ func (m *QueryResultResponse) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryWhitelistRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryWhitelistRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryWhitelistRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipQuery(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *QueryWhitelistResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowQuery
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: QueryWhitelistResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: QueryWhitelistResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Whitelist", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowQuery
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthQuery
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthQuery
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Whitelist = append(m.Whitelist, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipQuery(dAtA[iNdEx:])

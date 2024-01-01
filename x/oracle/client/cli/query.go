@@ -24,6 +24,7 @@ func GetQueryCmd(queryRoute string) *cobra.Command {
 
 	cmd.AddCommand(CmdQueryParams())
 	cmd.AddCommand(CmdResult())
+	cmd.AddCommand(CmdWhitelist())
 
 	// this line is used by starport scaffolding # 1
 
@@ -61,7 +62,7 @@ func CmdResult() *cobra.Command {
 	cmd := &cobra.Command{
 		Use:   "result [result]",
 		Short: "Query result",
-		Args:  cobra.ExactArgs(1),
+		Args:  cobra.NoArgs,
 		RunE: func(cmd *cobra.Command, args []string) (err error) {
 			clientCtx, err := client.GetClientQueryContext(cmd)
 			if err != nil {
@@ -73,6 +74,34 @@ func CmdResult() *cobra.Command {
 			params := &types.QueryResultRequest{}
 
 			res, err := queryClient.Result(cmd.Context(), params)
+			if err != nil {
+				return err
+			}
+
+			return clientCtx.PrintProto(res)
+		},
+	}
+
+	flags.AddQueryFlagsToCmd(cmd)
+
+	return cmd
+}
+
+func CmdWhitelist() *cobra.Command {
+	cmd := &cobra.Command{
+		Use:   "whitelist [whitelist]",
+		Short: "Query whitelist",
+		Args:  cobra.NoArgs,
+		RunE: func(cmd *cobra.Command, args []string) (err error) {
+			clientCtx, err := client.GetClientQueryContext(cmd)
+			if err != nil {
+				return err
+			}
+
+			queryClient := types.NewQueryClient(clientCtx)
+
+			queryWhitelist := &types.QueryWhitelistRequest{}
+			res, err := queryClient.Whitelist(cmd.Context(), queryWhitelist)
 			if err != nil {
 				return err
 			}
