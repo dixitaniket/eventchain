@@ -30,6 +30,13 @@ make build
 ./build/observer ./config1.toml
 ```
 
+## Available queries
+```
+eventchaind q oracle whitelist // for whitelist operators
+eventchaind q oracle params // for params
+eventchaind q oracle result // for oracle
+```
+
 ## Things I could improve in design
 - better verification of heights in msg server for posted data
 - currently events are finalised per block, make it customizable such that events could be finalised over a n block basis (n being a params)
