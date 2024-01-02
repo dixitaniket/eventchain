@@ -48,4 +48,4 @@ echo "Creating and collecting gentx..."
 $BINARY gentx val 1000000000000000000000stake  --home $CHAIN_DIR/$CHAIN_ID --chain-id $CHAIN_ID --keyring-backend test
 $BINARY collect-gentxs --home $CHAIN_DIR/$CHAIN_ID
 
-$BINARY start --log_level trace --home $CHAIN_DIR/$CHAIN_ID --pruning=everything --minimum-gas-prices=0.00001stake
+$BINARY start --rpc.laddr="tcp://0.0.0.0:26657" --log_level trace --home $CHAIN_DIR/$CHAIN_ID --pruning=everything --minimum-gas-prices=0.00001stake
